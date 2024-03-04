@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+const isAuthenticated = require('../middleware/isAuthenticated');
+const studentController = require('../controllers/student_data');
+
+// Route to handle password change
+router.post('/change-password', isAuthenticated, studentController.changePassword);
+router.get('/studentdata',isAuthenticated,studentController.getstudentData);
+router.get('/getsubjects', isAuthenticated, studentController.getStudentSubjects)
+
+module.exports = router;
