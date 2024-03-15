@@ -6,7 +6,7 @@ exports.loginStudent = async (req, res) => {
   console.log("tryong login")
   const { userId, password } = req.body;
   
-  const query1 = 'SELECT * FROM student WHERE student_id = ?';
+  const query1 = 'SELECT * FROM student12 WHERE student_id = ?';
 
   try {
     const [results] = await connection.query(query1, [userId]);
@@ -34,7 +34,7 @@ exports.changePassword = async (req, res) => {
     const userId = req.session.userId; // Assuming userId is stored in the session
   
     // Update password in the database
-    const updateQuery = 'UPDATE student SET password = ? WHERE student_id = ?';
+    const updateQuery = 'UPDATE student12 SET password = ? WHERE student_id = ?';
   
     await connection.query(updateQuery, [newPassword, userId], (err, result) => {
       if (err) {
@@ -51,7 +51,7 @@ exports.changePassword = async (req, res) => {
   exports.getstudentData = async (req, res) => {
     try {
       const userId = req.session.userId;
-      const selectQuery = 'SELECT * FROM student WHERE student_id = ?';
+      const selectQuery = 'SELECT * FROM student12 WHERE student_id = ?';
       // Use promise-based query execution
       const [rows, fields] = await connection.query(selectQuery, [userId]);
       if (rows.length > 0) {
