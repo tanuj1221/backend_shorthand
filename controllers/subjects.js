@@ -37,3 +37,34 @@ exports.getCourses = async (req,res) => {
         res.status(500).send(err)
     }
 }
+
+
+exports.audiosFromId = async (req, res) => {
+    try {
+        // Extract subjectId from the request body
+        const { subjectId } = req.body;
+
+        // Check if subjectId is provided
+        if (!subjectId) {
+            return res.status(400).send("No subject ID provided.");
+        }
+
+        // Prepare a parameterized query
+        const courseQuery = "SELECT * FROM audiodb1 WHERE subjectId = ?";
+
+        console.log('Fetching courses for subject ID:', subjectId);
+
+        // Execute the query with the subjectId as a parameter
+        const courses = await connection.query(courseQuery, [subjectId]);
+
+        // Check if any courses are found
+        if (courses.length > 0) {
+            res.json(courses[0]);
+        } else {
+            res.status(404).send("No courses found for the provided subject ID.");
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(err.message);
+    }
+};
