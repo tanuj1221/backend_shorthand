@@ -3,7 +3,7 @@ const connection = require('../config/db1');
 
 exports.getSubjectIds = async (req,res) => {
     try{
-        const userId = req.session.userId;
+     
         const sujectQuery = "SELECT * from subjectsDb"
 
         const subjctsids = await connection.query(sujectQuery)

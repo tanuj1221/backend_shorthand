@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
 
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 
 # ... (Your count_mistakes function goes here)
 import Levenshtein
@@ -164,6 +167,7 @@ def count_mistakes(original, answer):
     return mistakes
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/compare-text', methods=['POST'])
 def compare_text():

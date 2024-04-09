@@ -2,9 +2,6 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const pool = require("../config/db1")
 
-// Assuming `pool` is already configured elsewhere and imported here
-// const pool = mysql.createPool({ /* configuration */ });
-
 exports.importCSV = async (req, res) => {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
@@ -43,6 +40,9 @@ exports.importCSV = async (req, res) => {
 
     try {
       await connection.query(createTableQuery, [tableName]);
+
+      // Truncate the table to remove existing data
+      await connection.query(`TRUNCATE TABLE ??`, [tableName]);
 
       for (const row of rows) {
         const values = columns.map(column => row[column]);

@@ -4,7 +4,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 const subjectController = require('../controllers/subjects')
 
 
-router.get('/subjectsAndIds', isAuthenticated, subjectController.getSubjectIds);
+router.get('/subjectsAndIds', subjectController.getSubjectIds);
 router.get('/courses', isAuthenticated, subjectController.getCourses);
 router.post('/audiolist', isAuthenticated, subjectController.audiosFromId);
 

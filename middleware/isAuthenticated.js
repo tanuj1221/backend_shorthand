@@ -1,14 +1,13 @@
 
 // Middleware to check if the user is authenticated
-const isAuthenticated = (req, res, next) => {
-    if (req.session && req.session.userId) {
-      next();
+
+  const isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.studentId) {
+        next();
     } else {
-      // You can redirect to a login page or return a 403 Forbidden response
-      // For example, redirect to login: res.redirect('/login');
-      res.status(403).send('Not authenticated');
+        res.status(403).send('Not authenticated as a student');
     }
-  };
+};
   
   module.exports = isAuthenticated;
   

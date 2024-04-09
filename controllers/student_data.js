@@ -3,38 +3,38 @@ const connection = require('../config/db1');
 
 
 exports.loginStudent = async (req, res) => {
-  console.log("tryong login")
+  console.log("Trying student login");
   const { userId, password } = req.body;
-  
-  const query1 = 'SELECT * FROM student12 WHERE student_id = ?';
+
+  const query1 = 'SELECT * FROM student14 WHERE student_id = ?';
 
   try {
-    const [results] = await connection.query(query1, [userId]);
-    if (results.length > 0) {
-      const student = results[0];
+      const [results] = await connection.query(query1, [userId]);
+      if (results.length > 0) {
+          const student = results[0];
 
-      if (student.password === password) {
-        // Set session or any other login logic here
-        req.session.userId = student.student_id;
-        res.send('Logged in successfully!');
+          if (student.password === password) {
+              // Set student session
+              req.session.studentId = student.student_id;
+              res.send('Logged in successfully as a student!');
+          } else {
+              res.status(401).send('Invalid credentials for student');
+          }
       } else {
-        res.status(401).send('Invalid credentials');
+          res.status(404).send('Student not found');
       }
-    } else {
-      res.status(404).send('Student not found');
-    }
   } catch (err) {
-    res.status(500).send(err.message);
+      res.status(500).send(err.message);
   }
 };
 
 
 exports.changePassword = async (req, res) => {
     const { newPassword } = req.body;
-    const userId = req.session.userId; // Assuming userId is stored in the session
+    const userId = req.session.studentId; // Assuming userId is stored in the session
   
     // Update password in the database
-    const updateQuery = 'UPDATE student12 SET password = ? WHERE student_id = ?';
+    const updateQuery = 'UPDATE student14 SET password = ? WHERE student_id = ?';
   
     await connection.query(updateQuery, [newPassword, userId], (err, result) => {
       if (err) {
@@ -47,13 +47,20 @@ exports.changePassword = async (req, res) => {
     });
   };
 
+
+
+
+
+
+
   // getting the student data 
   exports.getstudentData = async (req, res) => {
     try {
-      const userId = req.session.userId;
-      const selectQuery = 'SELECT * FROM student12 WHERE student_id = ?';
+      const userId = req.session.studentId;
+      const selectQuery = 'SELECT * FROM student14 WHERE student_id = ?';
       // Use promise-based query execution
       const [rows, fields] = await connection.query(selectQuery, [userId]);
+      console.log([rows, fields])
       if (rows.length > 0) {
         const studentData = rows[0];
         res.json(studentData);
@@ -74,7 +81,7 @@ exports.changePassword = async (req, res) => {
 // ]
 exports.getStudentSubjects = async (req,res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.session.studentId;
     const subjectQuery = "SELECT subjectsId from student WHERE student_id = ?";
 
     const subjects = await connection.query(subjectQuery, [userId]);
