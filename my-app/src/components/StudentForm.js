@@ -317,7 +317,7 @@ function StudentForm() {
               value={subject.subjectId}
               checked={selectedSubjects.includes(subject.subjectId)}
               onChange={() => handleSubjectChange(subject.subjectId)}
-              required
+              
             />
             <label>{subject.subject_name}</label>
           </div>
