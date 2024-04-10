@@ -1,3 +1,5 @@
+import '../paymentmodal.css'; // Assuming your CSS file is named PaymentModal.css and is in the same directory
+
 const PaymentModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo }) => {
     if (!isOpen) return null;
 
@@ -6,7 +8,7 @@ const PaymentModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo }) => {
     };
 
     return (
-        <div style={{ position: 'fixed', top: '20%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', zIndex: 1000 }}>
+        <div className="modal">
             <h2>Enter Payment Details</h2>
             <input
                 type="text"
@@ -14,7 +16,7 @@ const PaymentModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo }) => {
                 value={userInfo.name}
                 onChange={handleChange}
                 placeholder="Your Name"
-                style={{ display: 'block', margin: '10px 0' }}
+                className="input"
             />
             <input
                 type="email"
@@ -22,7 +24,7 @@ const PaymentModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo }) => {
                 value={userInfo.email}
                 onChange={handleChange}
                 placeholder="Your Email"
-                style={{ display: 'block', margin: '10px 0' }}
+                className="input"
             />
             <input
                 type="text"
@@ -30,11 +32,12 @@ const PaymentModal = ({ isOpen, onClose, onSubmit, userInfo, setUserInfo }) => {
                 value={userInfo.contact}
                 onChange={handleChange}
                 placeholder="Your Contact Number"
-                style={{ display: 'block', margin: '10px 0' }}
+                className="input"
             />
-            <button onClick={() => onSubmit(userInfo)}>Proceed to Pay</button>
-            <button onClick={onClose}>Cancel</button>
+            <button className="button" onClick={() => onSubmit(userInfo)}>Proceed to Pay</button>
+            <button className="button cancel" onClick={onClose}>Cancel</button>
         </div>
     );
 };
+
 export default PaymentModal;
