@@ -37,8 +37,8 @@ app.use(session({
 const Razorpay = require('razorpay');
 
 const razorpay = new Razorpay({
-  key_id: 'rzp_test_e40XjG5y6SFo4h',
-  key_secret: '5sMuTAfJlP9CsM7bQqrX02sM'
+  key_id: 'rzp_live_d4DgqU3P4V8cqL',
+  key_secret: 'CdzEa5TlmdsPYD5arKVsrFkt'
 });
 
 

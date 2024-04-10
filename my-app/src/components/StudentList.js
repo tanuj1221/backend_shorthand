@@ -125,10 +125,10 @@ const StudentList = () => {
             <th>Institute ID</th>
             <th>Batch Start Date</th>
             <th>Batch End Date</th>
-            <th>First Name</th>
             <th>Last Name</th>
-            <th>Mother's Name</th>
+            <th>First Name</th>
             <th>Middle Name</th>
+            <th>Mother's Name</th>     
             <th>Amount</th>
             <th>Batch Year</th>
             <th>Subject</th>
@@ -143,10 +143,11 @@ const StudentList = () => {
               <td>{student.instituteId}</td>
               <td>{student.batchStartDate}</td>
               <td>{student.batchEndDate}</td>
-              <td>{student.firstName}</td>
               <td>{student.lastName}</td>
-              <td>{student.motherName}</td>
+              <td>{student.firstName}</td>
               <td>{student.middleName}</td>
+              <td>{student.motherName}</td>
+          
               <td>{student.amount}</td>
               <td>{student.batch_year}</td>
               <td>{student.subject_name}</td>

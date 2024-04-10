@@ -131,9 +131,10 @@ exports.registerStudent = async (req, res) => {
 
 exports.getstudentslist = async (req, res) => {
   try {
+     const instituteId = req.session.instituteId;
       // Fetch all students
-      const studentQuery = "SELECT student_id, password, instituteId, batchStartDate, batchEndDate, firstName, lastName, motherName, middleName, amount, batch_year, subjectsId,image FROM student14";
-      const [students] = await connection.query(studentQuery);
+      const studentQuery = "SELECT student_id, password, instituteId, batchStartDate, batchEndDate, firstName, lastName, motherName, middleName, amount, batch_year, subjectsId, image FROM student14 WHERE instituteId = ?";
+      const [students] = await connection.query(studentQuery, [instituteId]);
 
       // Fetch all subjects
       const subjectQuery = "SELECT subjectId, subject_name FROM subjectsDb";
@@ -185,8 +186,10 @@ exports.getstudentslist = async (req, res) => {
 exports.getPendingAmountStudentsList = async (req, res) => {
   try {
       // Fetch students with amount pending
-      const pendingAmountStudentQuery = "SELECT student_id, password, instituteId, batchStartDate, batchEndDate, firstName, lastName, motherName, middleName, amount, batch_year, subjectsId,image FROM student14 WHERE amount = 'pending'";
-      const [pendingAmountStudents] = await connection.query(pendingAmountStudentQuery);
+      const instituteId = req.session.instituteId;
+      const pendingAmountStudentQuery = "SELECT student_id, password, instituteId, batchStartDate, batchEndDate, firstName, lastName, motherName, middleName, amount, batch_year, subjectsId, image FROM student14 WHERE amount = 'pending' AND instituteId = ?";
+      const [pendingAmountStudents] = await connection.query(pendingAmountStudentQuery, [instituteId]);
+  
 
       // Fetch all subjects
       const subjectQuery = "SELECT subjectId, subject_name FROM subjectsDb";

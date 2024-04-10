@@ -25,7 +25,7 @@ const InstituteDashboard = () => {
       <nav class="navbar">
         <div class="logo">
           <img src={logo} alt="logo" />
-          <div style={{ whiteSpace: 'nowrap', fontSize: '1.2rem', display: 'block', alignItems: 'center' }}>
+          <div style={{ whiteSpace: 'nowrap', fontSize: '0.9rem', display: 'block', alignItems: 'center',fontWeight:'bold' }}>
             <span>MSCE PUNE COMPUTER SHORTHAND DEMO</span> 
           </div>
         </div>

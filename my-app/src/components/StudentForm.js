@@ -68,7 +68,6 @@ function StudentForm() {
     }
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -98,7 +97,26 @@ function StudentForm() {
     }
 
     alert('Students created successfully!');
+
+    // Clear form fields after submission
+    setSelectedYear('');
+    setSelectedSemester('');
+    setSelectedSubjects([]);
+    setImagePreview(null);
+    setStudentDetails({
+      firstName: '',
+      lastName: '',
+      motherName: '',
+      middleName: '',
+      studentId: '',
+      password: '',
+      image: '',
+      mobile_no: '',
+      email: '',
+    });
   };
+
+
 
 
   const handleImageChange = (e) => {
@@ -263,15 +281,32 @@ function StudentForm() {
         </select>
       </div>
 
-      <div style={formGroupStyle}>
-        <label style={labelStyle}>Mobile No:</label>
-        <input type="text" name="mobile_no" value={studentDetails.mobile_no} onChange={handleChange} required style={inputStyle} />
-      </div>
 
       <div style={formGroupStyle}>
-        <label style={labelStyle}>Email:</label>
-        <input type="email" name="email" value={studentDetails.email} onChange={handleChange} required style={inputStyle} />
-      </div>
+          <label style={labelStyle}>Mobile No:</label>
+          <input
+            type="tel"
+            name="mobile_no"
+            value={studentDetails.mobile_no}
+            onChange={handleChange}
+            required
+            pattern="[0-9]{10}"
+            title="Please enter a 10-digit mobile number"
+            style={inputStyle}
+          />
+        </div>
+
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={studentDetails.email}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+          />
+        </div>
 
       <div style={{ ...formGroupStyle, ...checkboxContainerStyle }}>
         <label style={labelStyle}>Subjects:</label>
@@ -282,6 +317,7 @@ function StudentForm() {
               value={subject.subjectId}
               checked={selectedSubjects.includes(subject.subjectId)}
               onChange={() => handleSubjectChange(subject.subjectId)}
+              required
             />
             <label>{subject.subject_name}</label>
           </div>
@@ -296,6 +332,7 @@ function StudentForm() {
           accept="image/*"
           onChange={handleImageChange}
           style={fileInputStyle}
+          required
         />
         {imagePreview && (
           <div>
