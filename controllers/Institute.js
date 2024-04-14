@@ -238,6 +238,48 @@ exports.getPendingAmountStudentsList = async (req, res) => {
   }
 }
 
+// Assuming you have 'connection' set up to handle MySQL queries
+exports.getStudentById = async (req, res) => {
+  try {
+    const studentId = req.params.id;  // Correct this line
+    const studentQuery = `
+      SELECT
+        student_id, firstName, lastName, middleName, motherName,
+        mobile_no, email, batch_year, subjectsId
+      FROM
+        student14
+      WHERE
+        student_id = ?;
+    `;
+    const [student] = await connection.query(studentQuery, [studentId]);
+
+    console.log(student, studentId)
+    if (student.length === 0) {
+      res.status(404).send("Student not found");
+      return;
+    }
+
+    // Assuming subjectsId contains comma-separated subject IDs
+    const subjectQuery = `
+      SELECT subjectId, subject_name FROM subjectsDb
+      WHERE subjectId IN (?);
+    `;
+    const subjectsIds = student[0].subjectsId.split(',');
+    const [subjects] = await connection.query(subjectQuery, [subjectsIds]);
+
+    // Add subjects directly into the student object
+    student[0].subjects = subjects.map(sub => ({
+      subjectId: sub.subjectId,
+      subject_name: sub.subject_name
+    }));
+
+    res.json(student[0]);
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).send("Failed to retrieve student data");
+  }
+};
+
 
 exports.deleteStudent = async (req, res) => {
     const studentId = req.params.id;
