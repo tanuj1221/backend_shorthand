@@ -33,4 +33,9 @@ router.delete('/deletetable/:tableName', async (req, res) => {
     }
 });
 
+router.get('/students/details/:id', instituteController.getStudentById);
+router.put('/students/:studentId', instituteController.updateStudent);
+
+
+
 module.exports = router;
