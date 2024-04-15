@@ -12,6 +12,7 @@ router.get('/students', isAuthenticatedInsti, instituteController.getStudentsByI
 router.post('/registerstudent',isAuthenticatedInsti,instituteController.registerStudent);
 router.get('/getstudents', isAuthenticatedInsti, instituteController.getstudentslist);
 router.get('/paystudents', isAuthenticatedInsti, instituteController.getPendingAmountStudentsList);
+// router.get('/studentsubjects', isAuthenticatedInsti, instituteController.getPendingAmountStudentsList);
 
 router.delete('/studentsdel/:id',isAuthenticatedInsti, instituteController.deleteStudent);
 
@@ -32,5 +33,6 @@ router.delete('/deletetable/:tableName', async (req, res) => {
         res.status(500).send('Failed to delete table');
     }
 });
+router.get('/students/details/:id', instituteController.getStudentById);
 
-module.exports = router;
+module.exports = router;  

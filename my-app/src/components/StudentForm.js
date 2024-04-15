@@ -325,7 +325,7 @@ function StudentForm() {
       </div>
 
       <div style={formGroupStyle}>
-        <label style={labelStyle}>Image:</label>
+        <label style={labelStyle}>Photo(size 22kb to 50kb):</label>
         <input
           type="file"
           name="image"
@@ -341,7 +341,7 @@ function StudentForm() {
         )}
       </div>
 
-      <button type="submit" style={buttonStyle}>Register Student</button>
+      <button type="submit" style={buttonStyle}>Submit</button>
    </form>
   </div>
   );

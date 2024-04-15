@@ -79,21 +79,90 @@ exports.changePassword = async (req, res) => {
 //     "subjectsId": "[101,102]"
 //   }
 // ]
-exports.getStudentSubjects = async (req,res) => {
+
+// this is for time 
+exports.getStudentSubjects = async (req, res) => {
   try {
     const userId = req.session.studentId;
-    const subjectQuery = "SELECT subjectsId from student WHERE student_id = ?";
+    const subjectQuery = "SELECT subjectsId FROM student14 WHERE student_id = ?";
 
     const subjects = await connection.query(subjectQuery, [userId]);
-    if (subjects !== null) {
-      res.json(subjects[0])
+    console.log(subjects);
+
+    // Check if the query returned any results
+    if (subjects.length > 0 && subjects[0].length > 0) {
+      // Parse the subjectsId assuming it is stored as a JSON string (e.g., "[101]")
+      const rawSubjectsId = subjects[0][0].subjectsId;
+      const parsedSubjectsId = JSON.parse(rawSubjectsId);  // Now should be an array, e.g., [101]
+
+      // Fetch details from subjectsdb table
+      const subjectsDetailsQuery = 'SELECT * FROM subjectsdb WHERE subjectId IN (?)';
+      const subjectDetails = await connection.query(subjectsDetailsQuery, [parsedSubjectsId]);
+
+      if (subjectDetails.length > 0) {
+        res.json(subjectDetails[0]);
+      } else {
+        res.status(404).send('Subjects not found');
+      }
     } else {
-      res.status(404).send('student not found')
-    } 
-
-
+      res.status(404).send('Student not found');
+    }
   } catch (err) {
-     res.status(500).send(err)
+    console.error(err);
+    res.status(500).send(err.message);
   }
 }
 
+
+
+exports.updateTimer = async (req, res) => {
+  try {
+    const { timerValue } = req.body; // Directly using timerValue from the request body
+    const studentId = req.session.studentId; // Assuming studentId is stored in session
+    console.log(req.body); // Logging the body to see what's received
+
+    // Ensure timerValue is a string representing a non-negative integer
+    if (!/^\d+$/.test(timerValue)) {
+      return res.status(400).send('Invalid timer value');
+    }
+
+    const updateQuery = 'UPDATE student14 SET rem_time = ? WHERE student_id = ?';
+    const [result] = await connection.query(updateQuery, [timerValue, studentId]);
+
+    if (result.affectedRows > 0) {
+      res.send('Timer updated successfully');
+    } else {
+      res.status(404).send('Student not found');
+    }
+  } catch (err) {
+    console.error('Error updating timer:', err);
+    res.status(500).send(err.message);
+  }
+};
+
+exports.getStudentSubjectInfo = async (req, res) => {
+  try {
+    const userId = req.session.studentId;  // Get student ID from the session, assumed to be stored as a string
+
+    const studentSubjectsQuery = `
+      SELECT s.student_id, s.image, CONCAT(s.firstName, ' ', s.lastName) AS studename, sub.subject_name, sub.subjectId
+      FROM student14 AS s
+      JOIN JSON_TABLE(
+        s.subjectsId,
+        '$[*]' COLUMNS(subjectId CHAR(50) COLLATE utf8mb4_unicode_ci PATH '$')  -- Specifying collation here
+      ) AS subjects ON s.student_id = ?
+      JOIN subjectsdb AS sub ON subjects.subjectId COLLATE utf8mb4_unicode_ci = sub.subjectId COLLATE utf8mb4_unicode_ci  -- Matching collations for safe comparison
+    `;
+
+    const studentSubjects = await connection.query(studentSubjectsQuery, [userId]);
+
+    if (studentSubjects.length > 0) {
+      res.json(studentSubjects[0]);
+    } else {
+      res.status(404).send('No subjects found for this student');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error: ' + err.message);
+  }
+};
