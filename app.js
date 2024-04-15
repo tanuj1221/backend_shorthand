@@ -13,7 +13,6 @@ const connection = require('./config/db1');
 const auth1 = require('./routes/isauthsti')
 const path = require('path');
 
-
 const app = express();
 const PORT = 3000;
 
@@ -101,6 +100,9 @@ app.post('/verifyPayment', async (req, res) => {
 });
 
 // Enable CORS with default options (accept requests from any origin)
+
+
+
 
 // Other app setup (body parser, session, etc.)
 app.use(bodyParser.urlencoded({ extended: true }));
