@@ -12,7 +12,8 @@ const EditStudentForm = () => {
     mobile_no: '',
     email: '',
     batch_year: '',  // Add this line
-    sem: ''
+    sem: '',
+    image: ''
     // Add other fields as necessary
   });
   const [batchYears, setBatchYears] = useState([]);
@@ -20,8 +21,6 @@ const EditStudentForm = () => {
   const [semesters, setSemesters] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState('');
   const [batchInfo, setBatchInfo] = useState({});
-  const [subjects, setSubjects] = useState([]);
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
@@ -102,8 +101,7 @@ const EditStudentForm = () => {
     const updatedStudentDetails = {
       ...studentDetails,
       batch_year: selectedYear,
-      sem: selectedSemester,
-      subjectsId: selectedSubjects.map(Number), // Convert subject IDs to numbers if they are not already
+      sem: selectedSemester
     };
   
     try {
@@ -126,8 +124,7 @@ const EditStudentForm = () => {
       studentDetails.mobile_no.trim() !== '' &&
       studentDetails.email.trim() !== '' &&
       selectedYear.trim() !== '' &&
-      selectedSemester.trim() !== '' && // Ensure semester is selected
-      selectedSubjects.length > 0  // Ensure at least one subject is selected
+      selectedSemester.trim() !== ''
     );
   };
   
@@ -141,14 +138,6 @@ const EditStudentForm = () => {
     const selectedBatch = semesters.find(sem => sem.sem === event.target.value);
     if (selectedBatch) {
       setBatchInfo(selectedBatch);
-    }
-  };
-  
-  const handleSubjectChange = (subjectId) => {
-    if (selectedSubjects.includes(subjectId)) {
-      setSelectedSubjects(selectedSubjects.filter((id) => id !== subjectId));
-    } else {
-      setSelectedSubjects([...selectedSubjects, subjectId]);
     }
   };
 
@@ -264,11 +253,6 @@ const EditStudentForm = () => {
       backgroundSize: '12px', // Size of the dropdown arrow
     };
     
-    const checkboxContainerStyle = {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    };
     
     const buttonStyle = {
       gridColumn: '1/-1', // Adjust grid column span
@@ -327,19 +311,6 @@ const EditStudentForm = () => {
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       gridColumn: '1 / -1', // Span across all columns in the grid
     };
-    
-    const subjectGridStyle = {
-      display: 'grid',
-      gridTemplateColumns: isVeryNarrowScreen ? 'repeat(2, 1fr)' : 'repeat(6, 1fr)', // Adjust column count for narrower screens
-      gap: '20px',
-      padding: '10px',
-      alignItems: 'center',
-      justifyContent: 'start',
-    };
-    
-    const subjectStyle = {
-      fontSize: isVeryNarrowScreen ? '10px' : '16px'// Smaller font size for very narrow screens
-    }
 
   return (
     <div>
@@ -409,23 +380,44 @@ const EditStudentForm = () => {
           </div>
 
           <div style={stackGroupStyle}>
-
             <div style={formGroupStyle}>
-            <label style={labelStyle}>Upload Photo(20-50 kb size)</label>
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}  
-              style={fileInputStyle}
-              required={!studentDetails.image}  // Only require if no image is already loaded
+              <label style={labelStyle}>Upload Photo (20-50 KB size)</label>
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={fileInputStyle}
               />
-            {imagePreview && (
-              <div>
-                <img src={imagePreview} alt="Preview" style={imagePreviewStyle} />
-              </div>
-            )}
-          </div>
+              {imagePreview ? (
+                <div>
+                  <img src={imagePreview} alt="Preview" style={imagePreviewStyle} />
+                  <div style={{
+                    display: 'flex', // Use flexbox to align items
+                    justifyContent: 'center', // Center horizontally in the flex container
+                    marginTop: '10px' // Add some space above this div
+                  }}>
+                    <button type="button" onClick={() => {
+                      setImagePreview(null);
+                      setStudentDetails(prevDetails => ({ ...prevDetails, image: '' }));
+                    }}
+                      style={{
+                        padding: '10px 20px', // Padding inside the button for better touch area
+                        backgroundColor: '#f44336', // A red color for the remove button, indicating a destructive action
+                        color: 'white', // White text color for contrast
+                        border: 'none', // No border
+                        borderRadius: '4px', // Rounded corners
+                        cursor: 'pointer', // Cursor indicates clickable area
+                        fontSize: '16px', // Font size for readability
+                      }}>
+                      Remove Image
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p>No image selected. Please upload an image.</p>
+              )}
+            </div>
           </div>
 
         <button type="submit" style={buttonStyle}>Submit</button>
