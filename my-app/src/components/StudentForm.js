@@ -101,8 +101,6 @@ function StudentForm() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-
   //End Applying media queries===========
 
 
@@ -350,110 +348,110 @@ const formStyle = {
 
   return (
     <div>
-    <h1 style={headingStyle}>Register New Student</h1>
-    <form onSubmit={handleSubmit} style={formStyle}>
-      <div style={formGroupStyle}>
-        <label style={labelStyle}>Last Name:</label>
-        <input type="text" name="lastName" value={studentDetails.lastName} onChange={handleChange} required style={capitalizedNameInputStyle} />
-      </div>
-
-      <div style={formGroupStyle}>
-        <label style={labelStyle}>First Name:</label>
-        <input type="text" name="firstName" value={studentDetails.firstName} onChange={handleChange} required style={capitalizedNameInputStyle} />
-      </div>
-
-      <div style={formGroupStyle}>
-        <label style={labelStyle}>Middle Name:</label>
-        <input type="text" name="middleName" value={studentDetails.middleName} onChange={handleChange} required style={capitalizedNameInputStyle} />
-      </div>
-
-      <div style={formGroupStyle}>
-        <label style={labelStyle}>Mother's Name:</label>
-        <input type="text" name="motherName" value={studentDetails.motherName} onChange={handleChange} required style={capitalizedNameInputStyle} />
-      </div>
-
-      <div style={formGroupStyle}>
-        <label style={labelStyle}>Batch Year:</label>
-        <select value={selectedYear} onChange={handleYearChange} style={selectStyle}>
-          <option value="">Select Batch Year</option>
-          {batchYears.map(year => <option key={year} value={year}>{year}</option>)}
-        </select>
-      </div>
-
-      <div style={formGroupStyle}>
-        <label style={labelStyle}>Semester:</label>
-        <select value={selectedSemester} onChange={handleSemesterChange} style={selectStyle}>
-          <option value="">Select Semester</option>
-          {semesters.map(semester => <option key={semester.sem} value={semester.sem}>{semester.sem}</option>)}
-        </select>
-      </div>
-
-
-      <div style={formGroupStyle}>
-          <label style={labelStyle}>Mobile No:</label>
-          <input
-            type="tel"
-            name="mobile_no"
-            value={studentDetails.mobile_no}
-            onChange={handleChange}
-            required
-            pattern="[0-9]{10}"
-            title="Please enter a 10-digit mobile number"
-            style={inputStyle}
-          />
+      <h1 style={headingStyle}>Register New Student</h1>
+      <form onSubmit={handleSubmit} style={formStyle}>
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Last Name:</label>
+          <input type="text" name="lastName" value={studentDetails.lastName} onChange={handleChange} required style={capitalizedNameInputStyle} />
         </div>
 
         <div style={formGroupStyle}>
-          <label style={labelStyle}>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={studentDetails.email}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
+          <label style={labelStyle}>First Name:</label>
+          <input type="text" name="firstName" value={studentDetails.firstName} onChange={handleChange} required style={capitalizedNameInputStyle} />
         </div>
 
-        <div style={stackGroupStyle}>
-          <div style={formGroupStyle}>
-            <label style={labelStyle}>Subjects:</label>
-            {/* Apply the new grid style to the container that holds subject checkboxes */}
-            <div style={subjectGridStyle}>
-              {subjects.map((subject) => (
-                <div key={subject.subjectId} style={checkboxContainerStyle}>
-                  <input
-                    type="checkbox"
-                    value={subject.subjectId}
-                    checked={selectedSubjects.includes(subject.subjectId)}
-                    onChange={() => handleSubjectChange(subject.subjectId)}
-                  />
-                  <label style={subjectStyle}>{subject.subject_name}</label>
-                </div>
-              ))}
-            </div>
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Middle Name:</label>
+          <input type="text" name="middleName" value={studentDetails.middleName} onChange={handleChange} required style={capitalizedNameInputStyle} />
+        </div>
+
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Mother's Name:</label>
+          <input type="text" name="motherName" value={studentDetails.motherName} onChange={handleChange} required style={capitalizedNameInputStyle} />
+        </div>
+
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Batch Year:</label>
+          <select value={selectedYear} onChange={handleYearChange} style={selectStyle}>
+            <option value="">Select Batch Year</option>
+            {batchYears.map(year => <option key={year} value={year}>{year}</option>)}
+          </select>
+        </div>
+
+        <div style={formGroupStyle}>
+          <label style={labelStyle}>Semester:</label>
+          <select value={selectedSemester} onChange={handleSemesterChange} style={selectStyle}>
+            <option value="">Select Semester</option>
+            {semesters.map(semester => <option key={semester.sem} value={semester.sem}>{semester.sem}</option>)}
+          </select>
+        </div>
+
+
+        <div style={formGroupStyle}>
+            <label style={labelStyle}>Mobile No:</label>
+            <input
+              type="tel"
+              name="mobile_no"
+              value={studentDetails.mobile_no}
+              onChange={handleChange}
+              required
+              pattern="[0-9]{10}"
+              title="Please enter a 10-digit mobile number"
+              style={inputStyle}
+            />
           </div>
 
           <div style={formGroupStyle}>
-          <label style={labelStyle}>Upload Photo(20-50 kb size)</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}  
-            style={fileInputStyle}
-            required
-          />
-          {imagePreview && (
-            <div>
-              <img src={imagePreview} alt="Preview" style={imagePreviewStyle} />
-            </div>
-          )}
-        </div>
-        </div>
+            <label style={labelStyle}>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={studentDetails.email}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </div>
 
-      <button type="submit" style={buttonStyle}>Submit</button>
-   </form>
+          <div style={stackGroupStyle}>
+            <div style={formGroupStyle}>
+              <label style={labelStyle}>Subjects:</label>
+              {/* Apply the new grid style to the container that holds subject checkboxes */}
+              <div style={subjectGridStyle}>
+                {subjects.map((subject) => (
+                  <div key={subject.subjectId} style={checkboxContainerStyle}>
+                    <input
+                      type="checkbox"
+                      value={subject.subjectId}
+                      checked={selectedSubjects.includes(subject.subjectId)}
+                      onChange={() => handleSubjectChange(subject.subjectId)}
+                    />
+                    <label style={subjectStyle}>{subject.subject_name}</label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={formGroupStyle}>
+            <label style={labelStyle}>Upload Photo(20-50 kb size)</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}  
+              style={fileInputStyle}
+              required
+            />
+            {imagePreview && (
+              <div>
+                <img src={imagePreview} alt="Preview" style={imagePreviewStyle} />
+              </div>
+            )}
+          </div>
+          </div>
+
+        <button type="submit" style={buttonStyle}>Submit</button>
+      </form>
     </div>
   );
 }

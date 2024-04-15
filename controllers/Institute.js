@@ -128,6 +128,58 @@ exports.registerStudent = async (req, res) => {
 //     }
 //   };
 
+// File: Institute.js
+
+// Function to update an existing student's data
+exports.updateStudent = async (req, res) => {
+  const studentId = req.params.studentId; // Extracting studentId from URL parameters
+  const {
+    firstName,
+    lastName,
+    motherName,
+    middleName,
+    batch_year,
+    sem,
+    image,
+    mobile_no,
+    email,
+  } = req.body; // Extracting all fields from the request body
+
+  const updateQuery = `
+    UPDATE student14 
+    SET 
+      firstName = ?,
+      lastName = ?,
+      motherName = ?,
+      middleName = ?,
+      batch_year = ?,
+      sem = ?,
+      image = ?,
+      mobile_no = ?,
+      email = ?
+    WHERE student_id = ?;
+  `;
+
+  try {
+    await connection.query(updateQuery, [
+      firstName,
+      lastName,
+      motherName,
+      middleName,
+      batch_year,
+      sem,
+      image,
+      mobile_no,
+      email,
+      studentId,
+      image
+    ]);
+    res.send('Student updated successfully');
+  } catch (err) {
+    console.error('Error updating student:', err);
+    res.status(500).send('Error updating student');
+  }
+};
 
 exports.getstudentslist = async (req, res) => {
   try {
@@ -244,8 +296,8 @@ exports.getStudentById = async (req, res) => {
     const studentId = req.params.id;  // Correct this line
     const studentQuery = `
       SELECT
-        student_id, firstName, lastName, middleName, motherName,
-        mobile_no, email, batch_year, subjectsId
+        student_id, firstName, lastName, middleName, motherName, sem,
+        mobile_no, email, batch_year, subjectsId, image
       FROM
         student14
       WHERE
