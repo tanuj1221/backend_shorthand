@@ -19,6 +19,7 @@ const StudentList = () => {
 
     fetchStudents();
   }, []);
+  
   const handleSearch = event => {
     setSearchTerm(event.target.value.toLowerCase());
   };
@@ -101,7 +102,15 @@ const StudentList = () => {
                 <td>{student.middleName}</td>
                 <td>{student.motherName}</td>
             
-                <td>{student.amount}</td>
+                <td>
+                  {student.amount === 'pending' ? (
+                      <span className="pending-amount">{student.amount}</span>
+                  ) : student.amount === 'paid' ? (
+                      <span className="paid-amount">{student.amount}</span>
+                  ) : (
+                      student.amount
+                  )}
+                </td>
                 <td>{student.batch_year}</td>
                 <td>{student.subject_name}</td>
               </tr>

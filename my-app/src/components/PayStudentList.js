@@ -44,8 +44,6 @@ const PayStudentList = () => {
         fetchStudents();
     }, []);
 
-
-
     const handleSelectStudent = (studentId) => {
         setSelectedStudents(prevSelected => {
             const newSelected = new Set(prevSelected);
@@ -94,7 +92,8 @@ const PayStudentList = () => {
           return <img src={imageUrl} alt="Student" className="student-image" />;
         }
         return null;
-      };
+    };
+
     const handlePaymentInitiation = () => {
         setShowModal(true);
     };
@@ -265,7 +264,13 @@ const PayStudentList = () => {
                             <td>{student.firstName}</td>
                             <td>{student.middleName}</td>
                             <td>{student.motherName}</td>
-                            <td>{student.amount}</td>
+                            <td>
+                                {student.amount === 'pending' ? (
+                                    <span style={{ color: 'red' }}>{student.amount}</span>
+                                ) : (
+                                    student.amount
+                                )}
+                            </td>                            
                             <td>{student.batch_year}</td>
                             <td>{student.subject_name}</td>
                             <td>

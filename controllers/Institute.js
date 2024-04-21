@@ -4,7 +4,6 @@ const connection = require('../config/db1');
 exports.loginInstitute = async (req, res) => {
   console.log("Trying institute login");
   const { userId, password } = req.body;
-
   const query1 = 'SELECT * FROM institutedb WHERE instituteId = ?';
 
   try {
@@ -14,9 +13,13 @@ exports.loginInstitute = async (req, res) => {
           console.log(institute);
 
           if (institute.password === password) {
-              // Set institute session
               req.session.instituteId = institute.instituteId;
-              res.send('Logged in successfully as an institute!');
+              // Send the instituteId and InstituteName
+              res.send({
+                  message: 'Logged in successfully as an institute!',
+                  instituteId: institute.instituteId,
+                  instituteName: institute.InstituteName // assuming the column name is InstituteName
+              });
           } else {
               res.status(401).send('Invalid credentials for institute');
           }

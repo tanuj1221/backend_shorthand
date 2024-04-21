@@ -153,6 +153,14 @@
     transition: opacity 0.3s ease;
   }
 
+  .pending-amount {
+    color: red;
+}
+
+  .paid-amount {
+    color: rgb(15, 198, 15);
+  }
+
     /* Media query for screens smaller than 1224px */
     @media (max-width: 1224px) {
         .student-table th, .student-table td {
