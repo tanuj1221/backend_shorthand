@@ -2,11 +2,31 @@ import React, { useState, useEffect } from 'react';
 import '../InstituteDashboard.css';
 import logo from '../images/GCC-TBC.png';
 import { Link, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const InstituteDashboard = () => {
+
+
+const InstituteDashboard = ({ setIsAuthenticated }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [instituteName, setInstituteName] = useState('Loading Institute...'); // Initial placeholder
   const [instituteId, setInstituteId] = useState('Loading ID');
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      // Send a request to the backend to destroy the session
+      await axios.post('http://localhost:3000/logout');
+      // Clear local storage or any other client-side storage
+      localStorage.removeItem('instituteName');
+      localStorage.removeItem('instituteId');
+      setIsAuthenticated(false);
+      // Redirect to the login page
+      navigate('/login_institute');
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
+  };
 
   useEffect(() => {
     // Retrieve the instituteName from localStorage
@@ -72,7 +92,7 @@ const InstituteDashboard = () => {
         </ul>
         <div className="nav-link">
           <div className="menu-container">
-            <Link to="/login_institute" className="logout-link" onClick={closeSidebar}>
+            <Link to="/login_institute" className="logout-link" onClick={handleLogout}>
               <span>Log Out</span>
             </Link>
             <button className="menu-toggle" onClick={toggleSidebar}>☰</button>

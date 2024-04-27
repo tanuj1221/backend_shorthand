@@ -39,7 +39,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login_institute" />} />
         <Route path="/login_institute" element={isAuthenticated ? <Navigate to="/dashboard" /> : <LoginComponent setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/dashboard" element={isAuthenticated ? <InstituteDashboard /> : <Navigate to="/login_institute" />}>
+        <Route path="/dashboard" element={isAuthenticated ? <InstituteDashboard setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login_institute" />}>
           <Route path="students" element={<StudentList />} />
           <Route path="registration" element={<StudentForm />} />
           <Route path="paystudents" element={<PayStudentList />} />

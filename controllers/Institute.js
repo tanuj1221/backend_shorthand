@@ -31,6 +31,26 @@ exports.loginInstitute = async (req, res) => {
   }
 };
 
+exports.logoutInstitute = (req, res) => {
+  if (req.session) {
+      // Destroy the entire session
+      req.session.destroy(err => {
+          if (err) {
+              // Log any error that occurred during session destruction
+              console.error("Failed to destroy the session during logout", err);
+              return res.status(500).send("Could not log out, please try again.");
+          }
+
+          // Optionally clear the cookie if it's set to store session ID
+          res.clearCookie('connect.sid'); // This depends on your session cookie name
+
+          res.send("Logged out successfully");
+      });
+  } else {
+      // No session found, possibly already logged out
+      res.status(400).send("No active session found");
+  }
+};
 
 
 exports.getStudentsByInstitute = async (req, res) => {
